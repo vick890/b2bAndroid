@@ -82,8 +82,6 @@ public class SearchPage extends Fragment {
         id = sharedPreferences2.getString("id", "0");
         usertoken = sharedPreferences2.getString("usertoken", "0");
 
-        /*Toast.makeText(getActivity(), id, Toast.LENGTH_LONG).show();
-        Toast.makeText(getActivity(), usertoken, Toast.LENGTH_LONG).show();*/
 
         searchView = view.findViewById(R.id.searchView);
         searchView.setHasFixedSize(true);
@@ -281,7 +279,7 @@ public class SearchPage extends Fragment {
             //Constants.ALL_PRODUCTS
            // String url = "http://cartprod.ml/ecommerce/api/productByVendorId?userid=73&usertoken=aac5514deb3a7fd4122941a0875e6f91&vendor_id=36";
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST,Constants.ALL_PRODUCTS, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST,Constants.ALL_PRODUCTS_BY_ALL_USER_VENDOR, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
 
@@ -299,8 +297,7 @@ public class SearchPage extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 final JSONObject jsonObject2 = jsonArray.getJSONObject(i);
 
-                                if(jsonObject2.getString("name").toLowerCase().contains(searchText)
-                                    /*|| jsonObject2.getString("business_name").toLowerCase().contains("brolabs")*/){
+                                if(jsonObject2.getString("name").toLowerCase().contains(searchText)){
                                     homeItemsList.add(new FeaturedItems(
                                             jsonObject2.getString("product_id"),
                                             jsonObject2.getString("name"),

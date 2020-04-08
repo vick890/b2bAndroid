@@ -48,7 +48,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Recycler
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
-        Toast.makeText(mCtx, "he"+id, Toast.LENGTH_SHORT).show();
         final ProductItems homeItems = homeItemsList.get(position);
 
          if (homeItems.getCategory().equals(id)){
@@ -79,20 +78,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Recycler
         holder.linLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  Toast.makeText(mCtx, "he"+id, Toast.LENGTH_SHORT).show();
-
-                Toast.makeText(mCtx, String.valueOf(homeItems.getId()), Toast.LENGTH_LONG).show();
-                Toast.makeText(mCtx, String.valueOf(homeItems.getCategory()), Toast.LENGTH_LONG).show();
-                Toast.makeText(mCtx, String.valueOf(homeItems.getName()), Toast.LENGTH_LONG).show();
-                Toast.makeText(mCtx, String.valueOf(homeItems.getId()), Toast.LENGTH_LONG).show();
-                Toast.makeText(mCtx, String.valueOf(homeItems.getImage()), Toast.LENGTH_LONG).show();
-                Toast.makeText(mCtx, String.valueOf(homeItems.getPrice()), Toast.LENGTH_LONG).show();
-               /* if (homeItems.getId() == homeItems.getCategory()){
-                    Toast.makeText(mCtx, "Yes", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(mCtx, "NO", Toast.LENGTH_SHORT).show();
-                }*/
 
                 Fragment fragment = new SingleProduct();
                 Bundle bundle = new Bundle();

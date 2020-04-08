@@ -71,9 +71,6 @@ public class HomePage extends Fragment {
         id = sharedPreferences2.getString("id", "0");
         usertoken = sharedPreferences2.getString("usertoken", "0");
 
-        /*Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), String.valueOf(usertoken), Toast.LENGTH_SHORT).show();*/
-
         categoryView = view.findViewById(R.id.featuredView);
         categoryView.setHasFixedSize(true);
 

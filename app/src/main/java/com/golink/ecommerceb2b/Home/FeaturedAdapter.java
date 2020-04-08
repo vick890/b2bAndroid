@@ -90,7 +90,6 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Recycl
                 switch (check) {
                     case "vendor": {
 
-                        Toast.makeText(mCtx, String.valueOf(homeItems.getId()), Toast.LENGTH_LONG).show();
 
                         Fragment fragment = new VendorPage();
                         Bundle bundle = new Bundle();
@@ -107,7 +106,6 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Recycl
                     }
                     case "product": {
 
-                        Toast.makeText(mCtx, String.valueOf(homeItems.getId()), Toast.LENGTH_LONG).show();
 
                         Fragment fragment = new SingleProduct();
                         Bundle bundle = new Bundle();
