@@ -190,9 +190,6 @@ public class ProfilePage extends Fragment {
 
         requestQueue.add(stringRequest);
 
-
-
-
         logButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

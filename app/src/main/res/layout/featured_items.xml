@@ -24,7 +24,7 @@
             android:layout_height="80dp"
             android:layout_weight="0.7"
             android:orientation="vertical"
-            android:layout_marginLeft="15dp">
+            android:layout_marginLeft="5dp">
 
 
             <TextView
@@ -34,7 +34,8 @@
                 android:layout_weight="0.5"
                 android:text="Amasnd ajsdn"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:gravity="bottom"
                 android:layout_marginBottom="2dp"/>
 
@@ -43,8 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
-                android:textSize="12sp"
-                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textStyle="normal"
                 android:layout_marginTop="2dp"
                 android:text="Amasnd ajsdn"
                 android:gravity="top"/>

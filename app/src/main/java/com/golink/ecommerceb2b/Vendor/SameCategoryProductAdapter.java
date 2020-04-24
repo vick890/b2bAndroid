@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -16,8 +16,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.golink.ecommerceb2b.Models.Data;
+import com.golink.ecommerceb2b.Models.Products;
 import com.golink.ecommerceb2b.R;
-import com.golink.ecommerceb2b.SameCategoryItems;
 import com.golink.ecommerceb2b.Utils.Constants;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -25,37 +26,35 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.RecyclerViewHolder> {
+public class SameCategoryProductAdapter extends RecyclerView.Adapter<SameCategoryProductAdapter.RecyclerViewHolder> {
 
     private Context mCtx;
-    private List<ProductItems> homeItemsList;
+    private List<Products> homeItemsList;
     private String id;
 
 
-    public ProductAdapter(Context mCtx, List<ProductItems> homeItemsList, String id) {
+    public SameCategoryProductAdapter(Context mCtx, List<Products> homeItemsList, String id) {
         this.mCtx = mCtx;
         this.homeItemsList = homeItemsList;
         this.id = id;
     }
 
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SameCategoryProductAdapter.RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.product_items, null);
-        return new RecyclerViewHolder(view);
+        return new SameCategoryProductAdapter.RecyclerViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
-        final ProductItems homeItems = homeItemsList.get(position);
+    public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, int position) {
+        final Products homeItems = homeItemsList.get(position);
 
-         if (homeItems.getCategory().equals(id)){
+            if (homeItems.getProduct_id().equals(id)){
                 holder.prodName.setText(homeItems.getName());
                 holder.prodPrice.setText("₹ " + homeItems.getPrice());
 
-                Picasso.get().load(Constants.IMAGE_URL + homeItems.getImage())
+                Picasso.get().load(Constants.IMAGE_URL + homeItems.getPreview_image_path())
                         .centerInside().fit()
                         .networkPolicy(NetworkPolicy.OFFLINE).into(holder.prodImage, new Callback() {
                     @Override
@@ -65,28 +64,27 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Recycler
                     @Override
                     public void onError(Exception e) {
 
-                        Picasso.get().load(Constants.IMAGE_URL + homeItems.getImage()).centerInside()
+                        Picasso.get().load(Constants.IMAGE_URL + homeItems.getPreview_image_path()).centerInside()
                                 .fit().into(holder.prodImage);
                     }
 
                 });
-            }else {
+            }
+            else{
                 holder.linLay.setVisibility(View.GONE);
             }
 
-      //  }
+
 
         holder.linLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-              //  Toast.makeText(mCtx, id, Toast.LENGTH_SHORT).show();
                 Fragment fragment = new SingleProduct();
-                //Fragment fragment = new SameCategoryItems();
                 Bundle bundle = new Bundle();
                 bundle.putString("vendor", id);
                 bundle.putString("feedkey", homeItems.getId());
-                bundle.putString("feedkeyC", homeItems.getCategory());
+                bundle.putString("feedkeyC", homeItems.getCategory_id());
                 bundle.putString("vendor_id",homeItems.getUser_id());
                 fragment.setArguments(bundle);
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
@@ -95,12 +93,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Recycler
                 fragmentTransaction.replace(R.id.content_frame_second, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
             }
         });
 
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -126,3 +124,4 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Recycler
         }
     }
 }
+

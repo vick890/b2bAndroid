@@ -36,7 +36,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
     public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
         final CategoryItems homeItems = homeItemsList.get(position);
 
-        holder.catName.setText(homeItems.getName());
+        String name = homeItems.getName();
+        String Name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+        holder.catName.setText(Name);
         String category_id = homeItems.getId();
 
         holder.productView.setLayoutManager(new LinearLayoutManager(mCtx, LinearLayoutManager.HORIZONTAL, false));

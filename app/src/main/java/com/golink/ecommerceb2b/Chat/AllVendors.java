@@ -90,14 +90,15 @@ public class AllVendors extends Fragment {
                                 homeItemsList.add(new FeaturedItems(
                                         jsonObject2.getString("vendor_id"),
                                         jsonObject2.getString("vendor_name"),
+                                    //    jsonObject2.getString("price"),
                                         //jsonObject2.getString("address"),
                                         jsonObject2.getString("chat_id"),
-                                        jsonObject2.getString("vendor_image_path")
+                                        jsonObject2.getString("vendor_image_path"),
+                                        jsonObject2.getString("user_id"),
+                                        null
 
                                 ));
                             }
-
-
 
 
                         }

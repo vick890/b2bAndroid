@@ -29,7 +29,7 @@
                 android:background="@color/transparent"
                 android:padding="10dp"
                 android:text="Vendor Search"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"/>
 
@@ -51,7 +51,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
                 android:padding="10dp"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:text="Product Search"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"/>
@@ -75,7 +75,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
                 android:padding="10dp"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:text="Location Search"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"/>

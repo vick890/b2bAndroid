@@ -84,8 +84,11 @@ public class VendorPage extends Fragment {
 
 
         Bundle b = this.getArguments();
-        if(b!=null)
-        feedkey = b.getString("feedkey");
+        if(b!=null){
+            feedkey = b.getString("vendor_id");
+            Toast.makeText(getActivity(), feedkey, Toast.LENGTH_SHORT).show();
+        }
+
 
         TextView productSearch = view.findViewById(R.id.productSearch);
         ImageButton searchBtn = view.findViewById(R.id.searchBtn);
@@ -245,7 +248,8 @@ public class VendorPage extends Fragment {
                                             jsonObjectPro.getString("name"),
                                             jsonObjectPro.getString("preview_image_path"),
                                             jsonObjectPro.getString("price"),
-                                            jsonObjectPro.getString("category_id")
+                                            jsonObjectPro.getString("category_id"),
+                                            jsonObjectPro.getString("user_id")
                                     ));
 
                             }
@@ -256,17 +260,10 @@ public class VendorPage extends Fragment {
                                     feedkey,
                                     productItemsList
                             ));
-
-
                         }
-
-
-
-
                     }
-
-
-                } catch (JSONException e) {
+                }
+                catch (JSONException e) {
 
                     e.printStackTrace();
                 }
@@ -402,12 +399,6 @@ public class VendorPage extends Fragment {
                         })
                         .create().show();
 
-
-
-
-
-
-
             }
         });
 
@@ -419,6 +410,7 @@ public class VendorPage extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("search", "product");
                 bundle.putString("vendor_id", feedkey);
+                Toast.makeText(getActivity(), feedkey, Toast.LENGTH_SHORT).show();
                 fragment.setArguments(bundle);
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();

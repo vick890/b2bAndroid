@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -57,6 +58,10 @@ public class OrderPage extends Fragment {
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences(LogIn.login, MODE_PRIVATE);
         id = sharedPreferences2.getString("id", "0");
         usertoken = sharedPreferences2.getString("usertoken", "0");
+
+        /*Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(getActivity(), usertoken, Toast.LENGTH_SHORT).show();*/
 
         final RecyclerView orderView = view.findViewById(R.id.orderView);
         orderView.setLayoutManager(new LinearLayoutManager(getActivity()));

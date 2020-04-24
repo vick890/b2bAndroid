@@ -164,8 +164,12 @@ public class HomePage extends Fragment {
                                 homeItemsList.add(new FeaturedItems(
                                         jsonObject2.getString("vendor_id"),
                                         jsonObject2.getString("business_name"),
+                                       // jsonObject2.getString("price"),
                                         jsonObject2.getString("vendor_address"),
-                                        jsonObject2.getString("vendor_image_path")
+                                        jsonObject2.getString("vendor_image_path"),
+                                        jsonObject2.getString("user_id"),
+                                        null
+
 
                                 ));
 

@@ -348,10 +348,7 @@ public class FillDetails extends AppCompatActivity {
                             mProgress.setMessage("Saving Image...");
                             mProgress.show();
 
-
-
                             JSONObject jsonObjectC = new JSONObject();
-
 
                             try {
                                 jsonObjectC.put("userid", id);
@@ -390,7 +387,6 @@ public class FillDetails extends AppCompatActivity {
                                             try {
                                                 boolean error = jsonObject.getBoolean("error");
                                                 String message = jsonObject.getString("message");
-
 
                                                 if(!error){
 
@@ -608,6 +604,7 @@ public class FillDetails extends AppCompatActivity {
         else {
             ActivityCompat.requestPermissions(FillDetails.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
         }
+        //7974878890    9596871401
     }
 
     @Override

@@ -152,7 +152,6 @@ public class SingleOrderAdapter extends RecyclerView.Adapter<SingleOrderAdapter.
             cartPrice2 = itemView.findViewById(R.id.cartPrice2);
             cartColor = itemView.findViewById(R.id.cartColor);
 
-
         }
     }
 

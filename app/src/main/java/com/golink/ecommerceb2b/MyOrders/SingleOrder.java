@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,19 +59,20 @@ public class SingleOrder extends Fragment {
             orderid = (String) b.get("orderid");
         }
 
-
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences(LogIn.login, MODE_PRIVATE);
+
         id = sharedPreferences2.getString("id", "0");
         usertoken = sharedPreferences2.getString("usertoken", "0");
+
+        Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), usertoken, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), orderid, Toast.LENGTH_SHORT).show();
 
         progressD = view.findViewById(R.id.progressD);
         progressD.setVisibility(View.VISIBLE);
 
         final RecyclerView subscribeView = view.findViewById(R.id.singleOrderView);
         subscribeView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
-
 
         final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ORDER_PRODUCTS, new Response.Listener<String>() {

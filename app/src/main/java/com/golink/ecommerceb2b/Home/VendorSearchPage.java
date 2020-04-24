@@ -194,7 +194,11 @@ public class VendorSearchPage extends Fragment {
                                             jsonObject2.getString("product_id"),
                                             jsonObject2.getString("name"),
                                             ("₹ " + jsonObject2.getString("price")),
-                                            jsonObject2.getString("preview_image_path")
+                                            jsonObject2.getString("preview_image_path"),
+                                            jsonObject2.getString("user_id"),
+                                            null
+
+                                            // jsonObject2.getString("")
 
                                     ));
                                 }

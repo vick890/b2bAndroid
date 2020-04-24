@@ -108,7 +108,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.RecyclerView
             public void onClick(View view) {
 
 
-                Fragment fragment = new SingleOrder();
+              //  Toast.makeText(mCtx, carItems.getOrderId(), Toast.LENGTH_SHORT).show();
+              //  Fragment fragment = new SingleOrder();
+                Fragment fragment = new NewSingleOrder();
                 Bundle bundle = new Bundle();
                 bundle.putString("orderid", carItems.getOrderId());
                 fragment.setArguments(bundle);

@@ -148,13 +148,8 @@ public class LogIn extends AppCompatActivity {
                 }
                 else
                     Toast.makeText(LogIn.this, "Please enter a valid 10 digit mobile number", Toast.LENGTH_LONG).show();
-
-
             }
         });
-
-
-
     }
 
 
@@ -181,6 +176,8 @@ public class LogIn extends AppCompatActivity {
                         String usertoken = obj1.getString("usertoken");
                         String otp = obj1.getString("otp");
                         String check = obj1.getString("check");
+
+                       // Toast.makeText(LogIn.this, usertoken, Toast.LENGTH_SHORT).show();
 
                         editor.putString("id", userid);
                         editor.putString("usertoken", usertoken);

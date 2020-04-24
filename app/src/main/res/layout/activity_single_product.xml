@@ -42,12 +42,12 @@
 
 
 
-            <ImageView
+            <!--<ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorBlack"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"/>-->
 
             <TextView
                 android:id="@+id/nameProduct"
@@ -101,7 +101,7 @@
                     app:max="9999"
                     app:value="1"
                     app:unit="1"
-                    app:focusable="false"/>
+                    app:focusable="true"/>
 
 
                 <EditText
@@ -204,12 +204,14 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:textSize="14sp"
+                android:clickable="true"
                 android:layout_gravity="center"
                 android:text="GO TO VENDOR"
                 android:textStyle="bold"
                 android:textColor="@color/colorAccent"/>
 
 
+<!--
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -217,6 +219,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"/>
+-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -278,13 +281,13 @@
 
 
 
-            <ImageView
+            <!--<ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorBlack"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"/>-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -298,10 +301,10 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/productView"
+                android:id="@+id/singleOrderView"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp">
+                android:layout_height="match_parent">
 
             </androidx.recyclerview.widget.RecyclerView>
 

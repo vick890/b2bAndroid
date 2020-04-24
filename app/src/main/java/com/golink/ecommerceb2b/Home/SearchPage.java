@@ -120,7 +120,7 @@ public class SearchPage extends Fragment {
                     homeItemsList.clear();
                     searchView.removeAllViews();
 
-                    final String searchText = vendorSearch.getText().toString().toLowerCase();
+                    String searchText = vendorSearch.getText().toString().toLowerCase();
 
                     switch (search) {
                         case "vendor":
@@ -214,15 +214,13 @@ public class SearchPage extends Fragment {
                                     homeItemsList.add(new FeaturedItems(
                                             jsonObject2.getString("id"),
                                             jsonObject2.getString("business_name"),
+                                            //jsonObject2.getString("price"),
                                             jsonObject2.getString("address"),
-                                            jsonObject2.getString("user_image_path")
-
+                                            jsonObject2.getString("user_image_path"),
+                                            null,
+                                            null
                                     ));
                                 }
-
-
-
-
                             }
                         }
 
@@ -267,6 +265,8 @@ public class SearchPage extends Fragment {
 
             requestQueue.add(stringRequest);
         }
+
+
     }
 
     private void setSearchPro(final String searchText) {
@@ -276,8 +276,6 @@ public class SearchPage extends Fragment {
             progressD.setVisibility(View.VISIBLE);
 
             final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            //Constants.ALL_PRODUCTS
-           // String url = "http://cartprod.ml/ecommerce/api/productByVendorId?userid=73&usertoken=aac5514deb3a7fd4122941a0875e6f91&vendor_id=36";
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST,Constants.ALL_PRODUCTS_BY_ALL_USER_VENDOR, new Response.Listener<String>() {
                 @Override
@@ -300,9 +298,12 @@ public class SearchPage extends Fragment {
                                 if(jsonObject2.getString("name").toLowerCase().contains(searchText)){
                                     homeItemsList.add(new FeaturedItems(
                                             jsonObject2.getString("product_id"),
+                                          //  jsonObject2.getString("price"),
                                             jsonObject2.getString("name"),
                                             ("₹ " + jsonObject2.getString("price")),
-                                            jsonObject2.getString("preview_image_path")
+                                            jsonObject2.getString("preview_image_path"),
+                                            jsonObject2.getString("user_id"),
+                                            jsonObject2.getString("category_id")
 
                                     ));
                                 }
@@ -414,9 +415,11 @@ public class SearchPage extends Fragment {
                                     homeItemsList.add(new FeaturedItems(
                                             jsonObject2.getString("id"),
                                             jsonObject2.getString("business_name"),
+                                        //    jsonObject2.getString("price"),
                                             jsonObject2.getString("address"),
-                                            jsonObject2.getString("user_image_path")
-
+                                            jsonObject2.getString("user_image_path"),
+                                            null,
+                                            null
                                     ));
                                 }
 

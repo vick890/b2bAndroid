@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +32,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.golink.ecommerceb2b.Models.Category;
+import com.golink.ecommerceb2b.Models.Data;
+import com.golink.ecommerceb2b.Models.Products;
+import com.golink.ecommerceb2b.Models.Profile;
+import com.golink.ecommerceb2b.Network.GetUserData;
+import com.golink.ecommerceb2b.Network.RetrofitClient;
 import com.golink.ecommerceb2b.R;
 import com.golink.ecommerceb2b.Registration.LogIn;
 import com.golink.ecommerceb2b.Utils.Constants;
 import com.google.android.material.tabs.TabLayout;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.travijuu.numberpicker.library.NumberPicker;
@@ -51,6 +57,8 @@ import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -59,12 +67,13 @@ public class SingleProduct extends Fragment {
     private CircleImageView blackIm, whiteIm, redIm, greenIm, blueIm;
     private TextView nameProduct, priceProduct, colorName;
     private NumberPicker numberPicker;
-    private String id, usertoken, feedkey, feedkeyC;
+    private String id, usertoken, feedkey, feedkeyC,vendor_id;
     private ProgressBar progressD;
     private String vendor;
-    private RecyclerView productView;
+   // private RecyclerView productView;
     private List<ProductItems> productItemsList = new ArrayList<>();
     private ProductAdapter productAdapter;
+    private SameCategoryProductAdapter adapter;
 
     private ViewPager viewPager;
 
@@ -79,6 +88,12 @@ public class SingleProduct extends Fragment {
 
     private String checkColor;
 
+    String userid,category_id,product_id;
+    private RecyclerView passbookView;
+    private ProgressBar progressBar;
+    private ProgressDialog progressDialog;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -89,12 +104,18 @@ public class SingleProduct extends Fragment {
 
 
         Bundle b = this.getArguments();
-        if(b!=null){
 
-            vendor = b.getString("vendor");
+        if(b!=null){
             feedkey = b.getString("feedkey");
+            vendor = b.getString("vendor");
             feedkeyC = b.getString("feedkeyC");
             checkColor = b.getString("checkColor");
+            vendor_id = b.getString("vendor_id");
+
+            Toast.makeText(getActivity(), vendor_id
+                    , Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), feedkeyC, Toast.LENGTH_SHORT).show();
+
         }
 
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences(LogIn.login, MODE_PRIVATE);
@@ -109,7 +130,7 @@ public class SingleProduct extends Fragment {
         colorName = view.findViewById(R.id.colorName);
 
         numPick = view.findViewById(R.id.numPick);
-       // logAdd = view.findViewById(R.id.logAdd);
+        // logAdd = view.findViewById(R.id.logAdd);
         logAdd2 = view.findViewById(R.id.logAdd2);
 
         blackIm = view.findViewById(R.id.blackIm);
@@ -124,14 +145,14 @@ public class SingleProduct extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.gymImage);
         final TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabDots);
 
-        productView = view.findViewById(R.id.productView);
-        productView.setHasFixedSize(true);
+     //   productView = view.findViewById(R.id.productView);
+       // productView.setHasFixedSize(true);
 
+        passbookView = view.findViewById(R.id.singleOrderView);
+        passbookView.setHasFixedSize(true);
 
         progressD = view.findViewById(R.id.progressD);
         progressD.setVisibility(View.VISIBLE);
-
-
 
         /*logAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +163,6 @@ public class SingleProduct extends Fragment {
             }
         });*/
 
-
         logAdd2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,10 +171,6 @@ public class SingleProduct extends Fragment {
                 check = false;
             }
         });
-
-
-
-
 
         final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.PRODUCT_DETAIl, new Response.Listener<String>() {
@@ -206,13 +222,8 @@ public class SingleProduct extends Fragment {
                                 colorName.setText("Selected Color : " + checkColor);
                             }
 
-
-
                             if(getActivity()!=null){
-
-
                                 feedItemsListUniversal.clear();
-
                                 final RequestQueue requestQueue2 = Volley.newRequestQueue(getActivity());
                                 StringRequest stringRequest2 = new StringRequest(Request.Method.POST, Constants.PRODUCT_IMAGES, new Response.Listener<String>() {
                                     @Override
@@ -229,29 +240,21 @@ public class SingleProduct extends Fragment {
 
                                                 JSONArray jsonArrayCat = jsonObject.getJSONArray("data");
                                                 for (int i = 0; i < jsonArrayCat.length(); i++) {
-                                                    final JSONObject jsonObjectCat = jsonArrayCat.getJSONObject(i);
 
+                                                    final JSONObject jsonObjectCat = jsonArrayCat.getJSONObject(i);
                                                     feedItemsListUniversal.add(jsonObjectCat.getString("image"));
 
                                                 }
-
-
-
-
                                             }
-
-
-                                        } catch (JSONException e) {
+                                        }
+                                        catch (JSONException e) {
 
                                             e.printStackTrace();
                                         }
 
-
                                         mainAdapter = new StackAdapter(feedItemsListUniversal, getActivity(), feedkey);
                                         viewPager.setAdapter(mainAdapter);
                                         tabLayout.setupWithViewPager(viewPager, true);
-
-
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
@@ -284,7 +287,9 @@ public class SingleProduct extends Fragment {
 
 
 
-                        }else{
+                        }
+                        else
+                        {
 
                             final String preview = obj1.getString("preview_image_path");
 
@@ -294,12 +299,6 @@ public class SingleProduct extends Fragment {
                             viewPager.setAdapter(mainAdapter);
                             tabLayout.setupWithViewPager(viewPager, true);
                         }
-
-
-
-
-
-
 
                     }
 
@@ -339,14 +338,70 @@ public class SingleProduct extends Fragment {
 
         requestQueue.add(stringRequest);
 
-
-
-
-
         // other products
 
+        GetUserData getUserData = RetrofitClient.getRetrofit().create(GetUserData.class);
+        Call<Profile> userCall = getUserData.getVendorDetails(id,usertoken,vendor_id);
+        userCall.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, retrofit2.Response<Profile> response) {
+                if (response.isSuccessful()){
+                    Profile user = response.body();
+                    if (user.isError() == true){
+                        Toast.makeText(getActivity(), user.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressD.setVisibility(View.GONE);
+                    }
+                    else if (user.isError() == false){
+                        Data data = user.getData();
+                        List<Category> categories = data.getCategory();
+                        for (int i=0;i<categories.size();i++){
+                            if (categories.get(i).getCategory_id().equals(feedkeyC)){
+                                Toast.makeText(getActivity(), "he"+categories.get(i).getCategory_id(), Toast.LENGTH_SHORT).show();
+                                List<Products> products = categories.get(i).getProducts();
+                                for (int j=0;j<products.size();j++){
+                                    if (products.get(j).getProduct_id().equals(feedkey)){
+                                    }
+                                    else if (!(products.get(j).getProduct_id().equals(feedkey))){
+                                        passbookView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false));
+                                        adapter = new SameCategoryProductAdapter(getActivity(), products,products.get(j).getProduct_id());
+                                        passbookView.setAdapter(adapter);
+                                        progressD.setVisibility(View.GONE);
+                                        Toast.makeText(getActivity(), products.get(j).getProduct_id(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                /*passbookView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                adapter = new SameCategoryProductAdapter(getActivity(), products);
+                                passbookView.setAdapter(adapter);
+                                progressBar.setVisibility(View.GONE);*/
+                            }
+                            else {
+                                Toast.makeText(getActivity(), "she"+categories.get(i).getCategory_id(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        /*if (categories.get(0).getCategory_id() == category_id){
+                            Toast.makeText(getActivity(), "he"+categories.get(0).getCategory_id(), Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "she"+categories.get(0).getCategory_id(), Toast.LENGTH_SHORT).show();
+                        }*/
 
-        final RequestQueue requestQueue2 = Volley.newRequestQueue(getActivity());
+                    }
+                }
+                else{
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    progressD.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressD.setVisibility(View.GONE);
+            }
+        });
+
+
+        /*final RequestQueue requestQueue2 = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest2 = new StringRequest(Request.Method.POST, Constants.VENDOR_DETAIL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -362,55 +417,56 @@ public class SingleProduct extends Fragment {
 
                         JSONObject obj1 = jsonObject.getJSONObject("data");
 
-
                         // add products
 
                         productItemsList.clear();
-                        productView.removeAllViews();
-
+                       // productView.removeAllViews();
 
                         JSONArray jsonArrayCat = obj1.getJSONArray("category");
                         for (int i = 0; i < jsonArrayCat.length(); i++) {
                             final JSONObject jsonObjectCat = jsonArrayCat.getJSONObject(i);
 
-                            if(jsonObjectCat.getString("category_id").equals(feedkeyC)){
+                           // if(jsonObjectCat.getString("category_id").equals(feedkeyC)){
+                             //   Toast.makeText(getActivity(), jsonObjectCat.getString("category_id"), Toast.LENGTH_SHORT).show();
+                                ///Toast.makeText(getActivity(), "Hello", Toast.LENGTH_SHORT).show();
+
                                 JSONArray jsonArrayPro = jsonObjectCat.getJSONArray("products");
                                 for (int j = 0; j < jsonArrayPro.length(); j++) {
                                     final JSONObject jsonObjectPro = jsonArrayPro.getJSONObject(j);
 
-
-                                    if(!jsonObjectPro.getString("product_id").equals(feedkey)){
+                                    productItemsList.add(new ProductItems(
+                                            jsonObjectPro.getString("product_id"),
+                                            jsonObjectPro.getString("name"),
+                                            jsonObjectPro.getString("preview_image_path"),
+                                            jsonObjectPro.getString("price"),
+                                            jsonObjectPro.getString("category_id"),
+                                            jsonObjectPro.getString("user_id")
+                                            ));
+                                   *//* if(!jsonObjectPro.getString("product_id").equals(feedkey)){
                                         productItemsList.add(new ProductItems(
                                                 jsonObjectPro.getString("product_id"),
                                                 jsonObjectPro.getString("name"),
                                                 jsonObjectPro.getString("preview_image_path"),
                                                 jsonObjectPro.getString("price"),
-                                                jsonObjectPro.getString("category_id")
+                                                jsonObjectPro.getString("category_id"),
+                                                jsonObjectPro.getString("user_id")
                                         ));
-                                    }
-
-
+                                    }*//*
                                 }
-                            }
-
-
+                         //   }
+                           *//* else {
+                                Toast.makeText(getActivity(), "No", Toast.LENGTH_SHORT).show();
+                            }*//*
                         }
-
-
-
-
                     }
 
-
                 } catch (JSONException e) {
-
                     e.printStackTrace();
                 }
 
-
-                productView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-                productAdapter = new ProductAdapter(    getActivity(), productItemsList, vendor);
-                productView.setAdapter(productAdapter);
+         //       productView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+           //     sameAdapter = new SameCategoryProductAdapter(getActivity(), productItemsList, vendor);
+             //   productView.setAdapter(sameAdapter);
 
                 progressD.setVisibility(View.GONE);
 
@@ -441,18 +497,8 @@ public class SingleProduct extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue2.add(stringRequest2);
-
-
-
-
-
-
-
-
-
-
+*/
         // Color Clicks
-
 
         blackIm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -559,17 +605,15 @@ public class SingleProduct extends Fragment {
             }
         });
 
-
-
         vendorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(vendor!=null){
+               // if(vendor!=null){
 
                     Fragment fragment = new VendorPage();
                     Bundle bundle = new Bundle();
-                    bundle.putString("feedkey", vendor);
+                    bundle.putString("vendor_id", vendor_id);
                     fragment.setArguments(bundle);
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
@@ -578,14 +622,10 @@ public class SingleProduct extends Fragment {
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
 
-                }
+               // }
 
             }
         });
-
-
-
-
 
         logButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -625,20 +665,14 @@ public class SingleProduct extends Fragment {
 
                             }
 
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                             mPorgress.dismiss();
                         }
-
-
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
-
                         mPorgress.dismiss();
                         Toast.makeText(getActivity(), "Some error occured. Please Try Again!", Toast.LENGTH_SHORT).show();
 
@@ -664,7 +698,6 @@ public class SingleProduct extends Fragment {
                         }
 
                         return paramMap;
-
                     }
                 };
 
@@ -674,22 +707,11 @@ public class SingleProduct extends Fragment {
 
                 requestQueue.add(stringRequest);
 
-
             }
         });
 
-
-
-
-
-
-
-
-
         return view;
     }
-
-
 
 }
 

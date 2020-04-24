@@ -86,37 +86,14 @@
             android:padding="10dp"/>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            app:cardBackgroundColor="@color/colorWhite"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="15dp">
-
-            <TextView
-                android:id="@+id/productSearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/transparent"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:text="Product Search"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp"/>
-
-        </androidx.cardview.widget.CardView>
-
-
-        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/colorWhite"
             app:cardElevation="2dp"
+            android:layout_marginTop="20dp"
             app:cardCornerRadius="15dp"
-            android:layout_margin="10dp">
+            >
 
 
             <TextView
@@ -129,6 +106,31 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:padding="10dp"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            app:cardBackgroundColor="@color/colorWhite"
+            app:cardElevation="2dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="15dp">
+
+            <TextView
+                android:id="@+id/productSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:padding="10dp"
+                android:textStyle="normal"
+                android:text="Product Search"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"/>
 
         </androidx.cardview.widget.CardView>
 

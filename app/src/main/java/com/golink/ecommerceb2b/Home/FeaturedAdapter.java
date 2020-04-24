@@ -54,7 +54,7 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Recycl
         final FeaturedItems homeItems = homeItemsList.get(position);
 
         holder.featureName.setText(homeItems.getName());
-
+        //Toast.makeText(mCtx, homeItems.getUser_id(), Toast.LENGTH_SHORT).show();
 
         if(check.equals("chat")){
 
@@ -63,8 +63,6 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Recycl
 
             holder.featureLoc.setText(homeItems.getLocation());
         }
-
-
 
         Picasso.get().load(Constants.IMAGE_URL + homeItems.getImage())
                 .centerInside().fit()
@@ -89,11 +87,10 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Recycl
 
                 switch (check) {
                     case "vendor": {
-
-
                         Fragment fragment = new VendorPage();
                         Bundle bundle = new Bundle();
-                        bundle.putString("feedkey", homeItems.getId());
+                        bundle.putString("vendor_id", homeItems.getId());
+                        Toast.makeText(mCtx, homeItems.getId(), Toast.LENGTH_SHORT).show();
                         fragment.setArguments(bundle);
                         AppCompatActivity activity = (AppCompatActivity) view.getContext();
                         FragmentManager fragmentManager = activity.getSupportFragmentManager();
@@ -104,12 +101,15 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Recycl
 
                         break;
                     }
+
                     case "product": {
-
-
+                        String vendor_id = homeItems.getUser_id();
+                       // Toast.makeText(mCtx, vendor_id, Toast.LENGTH_SHORT).show();
                         Fragment fragment = new SingleProduct();
                         Bundle bundle = new Bundle();
+                        bundle.putString("vendor_id", vendor_id);
                         bundle.putString("feedkey", homeItems.getId());
+                        bundle.putString("feedkeyC", homeItems.getCategory_id());
                         fragment.setArguments(bundle);
                         AppCompatActivity activity = (AppCompatActivity) view.getContext();
                         FragmentManager fragmentManager = activity.getSupportFragmentManager();
@@ -117,23 +117,18 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Recycl
                         fragmentTransaction.replace(R.id.content_frame_second, fragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
-
                         break;
                     }
+
                     case "chat":
 
                         Intent intent = new Intent(mCtx, PersonalChat.class);
                         intent.putExtra("uid", homeItems.getLocation());
                         mCtx.startActivity(intent);
-
                         break;
                 }
-
-
             }
         });
-
-
     }
 
     @Override
