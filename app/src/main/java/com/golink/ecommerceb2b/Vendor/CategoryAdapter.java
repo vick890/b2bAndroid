@@ -18,6 +18,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
 
     private Context mCtx;
     private List<CategoryItems> homeItemsList;
+    ProductAdapter productAdapter;
 
 
     public CategoryAdapter(Context mCtx, List<CategoryItems> homeItemsList) {
@@ -28,7 +29,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.category_items, null);
+        View view = inflater.inflate(R.layout.category_items, parent,false);
         return new RecyclerViewHolder(view);
     }
 
@@ -41,9 +42,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
         holder.catName.setText(Name);
         String category_id = homeItems.getId();
 
+        productAdapter = new ProductAdapter(mCtx, homeItems.getProductItemsList(), homeItems.getId());
         holder.productView.setLayoutManager(new LinearLayoutManager(mCtx, LinearLayoutManager.HORIZONTAL, false));
-        ProductAdapter productAdapter = new ProductAdapter(mCtx, homeItems.getProductItemsList(), homeItems.getId());
         holder.productView.setAdapter(productAdapter);
+        holder.productView.setHasFixedSize(true);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +56,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
                 ProductAdapter productAdapter = new ProductAdapter(mCtx, homeItems.getProductItemsList(), homeItems.getVendor());
                 holder.productView.setAdapter(productAdapter);*/
 
+                /*productAdapter = new ProductAdapter(mCtx, homeItems.getProductItemsList(), homeItems.getId());
+                holder.productView.setLayoutManager(new LinearLayoutManager(mCtx, LinearLayoutManager.HORIZONTAL, false));
+                holder.productView.setAdapter(productAdapter);
+                holder.productView.setHasFixedSize(true);*/
             }
         });
 
@@ -76,8 +82,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
 
             catName = itemView.findViewById(R.id.catName);
             productView = itemView.findViewById(R.id.productView);
-
+           // notifyDataSetChanged();
 
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 }

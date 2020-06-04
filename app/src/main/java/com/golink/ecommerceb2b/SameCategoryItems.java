@@ -57,8 +57,6 @@ public class SameCategoryItems extends Fragment {
             product_id = b.getString("feedkey");
         }
 
-
-
        //Toast.makeText(getActivity(), product_id, Toast.LENGTH_SHORT).show();
        // Toast.makeText(getActivity(), usertoken, Toast.LENGTH_SHORT).show();*/
 

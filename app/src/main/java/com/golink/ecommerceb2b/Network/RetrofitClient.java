@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://www.cartprod.ml/ecommerce/api/";
+    private static final String BASE_URL = "https://www.brolabs.xyz/ecommerce/api/";
 
     public static Retrofit getRetrofit()
     {

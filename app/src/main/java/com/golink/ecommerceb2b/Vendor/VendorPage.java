@@ -1,5 +1,20 @@
 package com.golink.ecommerceb2b.Vendor;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -10,24 +25,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextClock;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -36,7 +33,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.golink.ecommerceb2b.Home.SearchPage;
 import com.golink.ecommerceb2b.Home.VendorSearchPage;
 import com.golink.ecommerceb2b.R;
 import com.golink.ecommerceb2b.Registration.LogIn;
@@ -92,7 +88,6 @@ public class VendorPage extends Fragment {
 
         TextView productSearch = view.findViewById(R.id.productSearch);
         ImageButton searchBtn = view.findViewById(R.id.searchBtn);
-
 
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences(LogIn.login, MODE_PRIVATE);
         id = sharedPreferences2.getString("id", "0");
@@ -182,12 +177,6 @@ public class VendorPage extends Fragment {
 
 
 
-
-
-
-
-
-
         final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.VENDOR_DETAIL, new Response.Listener<String>() {
             @Override
@@ -249,9 +238,11 @@ public class VendorPage extends Fragment {
                                             jsonObjectPro.getString("preview_image_path"),
                                             jsonObjectPro.getString("price"),
                                             jsonObjectPro.getString("category_id"),
-                                            jsonObjectPro.getString("user_id")
+                                            jsonObjectPro.getString("user_id"),
+                                            jsonObjectPro.getString("offer_price"),
+                                            jsonObjectPro.getString("offer_percentage"),
+                                            jsonObjectPro.getString("out_of_stock")
                                     ));
-
                             }
 
                             homeItemsList.add(new CategoryItems(
@@ -419,10 +410,8 @@ public class VendorPage extends Fragment {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
-
             }
         });
-
         return view;
     }
 }

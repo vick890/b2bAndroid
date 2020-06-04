@@ -33,7 +33,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Recycler
     private List<ProductItems> homeItemsList;
     private String id;
 
-
     public ProductAdapter(Context mCtx, List<ProductItems> homeItemsList, String id) {
         this.mCtx = mCtx;
         this.homeItemsList = homeItemsList;
@@ -49,11 +48,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Recycler
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
+        holder.setIsRecyclable(false);
         final ProductItems homeItems = homeItemsList.get(position);
 
          if (homeItems.getCategory().equals(id)){
                 holder.prodName.setText(homeItems.getName());
                 holder.prodPrice.setText("₹ " + homeItems.getPrice());
+                holder.offerPrice.setText("₹ " + homeItems.getOffer_price());
+                holder.offerPercentage.setText(homeItems.getOffer_percentage()+"% OFF");
+                if (homeItems.getOut_of_stock().equals("1")){
+                    holder.outOfStock.setText("OUT OF STOCK");
+                }
+                else {
+                    holder.outOfStock.setVisibility(View.INVISIBLE);
+                }
 
                 Picasso.get().load(Constants.IMAGE_URL + homeItems.getImage())
                         .centerInside().fit()
@@ -79,8 +87,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Recycler
         holder.linLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-              //  Toast.makeText(mCtx, id, Toast.LENGTH_SHORT).show();
                 Fragment fragment = new SingleProduct();
                 //Fragment fragment = new SameCategoryItems();
                 Bundle bundle = new Bundle();
@@ -110,7 +116,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Recycler
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         private TextView prodName;
-        private TextView prodPrice;
+        private TextView prodPrice,offerPrice,offerPercentage,outOfStock;
         private CardView linLay;
         private ImageView prodImage;
 
@@ -118,11 +124,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Recycler
             super(itemView);
 
             prodName = itemView.findViewById(R.id.prodName);
+            offerPrice = itemView.findViewById(R.id.offerPrice);
+            offerPercentage = itemView.findViewById(R.id.offerPercentage);
+            outOfStock = itemView.findViewById(R.id.outOfStock);
             linLay = itemView.findViewById(R.id.linLay);
             prodImage = itemView.findViewById(R.id.prodImage);
             prodPrice = itemView.findViewById(R.id.prodPrice);
 
-
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 }

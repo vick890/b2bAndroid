@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,7 @@ import com.golink.ecommerceb2b.Network.RetrofitClient;
 import com.golink.ecommerceb2b.R;
 import com.golink.ecommerceb2b.Registration.LogIn;
 import com.golink.ecommerceb2b.Utils.Constants;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -65,11 +69,12 @@ import static android.content.Context.MODE_PRIVATE;
 public class SingleProduct extends Fragment {
 
     private CircleImageView blackIm, whiteIm, redIm, greenIm, blueIm;
-    private TextView nameProduct, priceProduct, colorName;
+    private TextView nameProduct, priceProduct, colorName,offerPriceProduct,offerPercentageProduct;
     private NumberPicker numberPicker;
     private String id, usertoken, feedkey, feedkeyC,vendor_id;
     private ProgressBar progressD;
     private String vendor;
+    private RelativeLayout relativeLay;
    // private RecyclerView productView;
     private List<ProductItems> productItemsList = new ArrayList<>();
     private ProductAdapter productAdapter;
@@ -112,9 +117,8 @@ public class SingleProduct extends Fragment {
             checkColor = b.getString("checkColor");
             vendor_id = b.getString("vendor_id");
 
-            Toast.makeText(getActivity(), vendor_id
-                    , Toast.LENGTH_SHORT).show();
-            //Toast.makeText(getActivity(), feedkeyC, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getActivity(), vendor_id, Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(getActivity(), feedkeyC, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -122,10 +126,14 @@ public class SingleProduct extends Fragment {
         id = sharedPreferences2.getString("id", "0");
         usertoken = sharedPreferences2.getString("usertoken", "0");
 
+        relativeLay = view.findViewById(R.id.relativeLay);
+
         mPorgress = new ProgressDialog(getActivity());
 
         nameProduct = view.findViewById(R.id.nameProduct);
         priceProduct = view.findViewById(R.id.priceProduct);
+        offerPriceProduct = view.findViewById(R.id.offerPriceProduct);
+        offerPercentageProduct = view.findViewById(R.id.offerPercentageProduct);
         numberPicker = view.findViewById(R.id.number_picker);
         colorName = view.findViewById(R.id.colorName);
 
@@ -190,9 +198,13 @@ public class SingleProduct extends Fragment {
                         final String price = obj1.getString("price");
                         final String moq = obj1.getString("moq");
                         final String color = obj1.getString("color");
+                        final String offerPrice = obj1.getString("offer_price");
+                        final String offerPercentage = obj1.getString("offer_percentage");
 
                         nameProduct.setText(name);
                         priceProduct.setText("₹ " + price);
+                        offerPriceProduct.setText("₹ " + offerPrice);
+                        offerPercentageProduct.setText(offerPercentage+"% OFF");
                         numberPicker.setValue(Integer.valueOf(moq));
                         numberPicker.setMin(Integer.valueOf(moq));
 
@@ -356,10 +368,16 @@ public class SingleProduct extends Fragment {
                         List<Category> categories = data.getCategory();
                         for (int i=0;i<categories.size();i++){
                             if (categories.get(i).getCategory_id().equals(feedkeyC)){
-                                Toast.makeText(getActivity(), "he"+categories.get(i).getCategory_id(), Toast.LENGTH_SHORT).show();
+                              //  Toast.makeText(getActivity(), "he"+categories.get(i).getCategory_id(), Toast.LENGTH_SHORT).show();
                                 List<Products> products = categories.get(i).getProducts();
                                 for (int j=0;j<products.size();j++){
-                                    if (products.get(j).getProduct_id().equals(feedkey)){
+                                    passbookView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false));
+                                   // adapter = new SameCategoryProductAdapter(getActivity(), products,products.get(j).getProduct_id());
+                                    adapter = new SameCategoryProductAdapter(getActivity(), products,feedkey);
+                                    passbookView.setAdapter(adapter);
+                                    progressD.setVisibility(View.GONE);
+                                   // Toast.makeText(getActivity(),"he" +products.get(j).getProduct_id(), Toast.LENGTH_SHORT).show();
+                                   /* if (products.get(j).getProduct_id().equals(feedkey)){
                                     }
                                     else if (!(products.get(j).getProduct_id().equals(feedkey))){
                                         passbookView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false));
@@ -367,7 +385,7 @@ public class SingleProduct extends Fragment {
                                         passbookView.setAdapter(adapter);
                                         progressD.setVisibility(View.GONE);
                                         Toast.makeText(getActivity(), products.get(j).getProduct_id(), Toast.LENGTH_SHORT).show();
-                                    }
+                                    }*/
                                 }
                                 /*passbookView.setLayoutManager(new LinearLayoutManager(getActivity()));
                                 adapter = new SameCategoryProductAdapter(getActivity(), products);
@@ -649,18 +667,29 @@ public class SingleProduct extends Fragment {
                             boolean error = jsonObject.getBoolean("error");
 
                             if(!error){
-
                                 mPorgress.dismiss();
 
                                 //String message = jsonObject.getString("message");
                                 Toast.makeText(getActivity(), "Product added to cart successfully!", Toast.LENGTH_LONG).show();
 
-
                             } else {
 
                                 String message = jsonObject.getString("message");
 
-                                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                                Snackbar snackbar = Snackbar.make(relativeLay,message,Snackbar.LENGTH_LONG)
+                                        .setAction("OK", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                            }
+                                        });
+                                snackbar.setActionTextColor(Color.WHITE);
+                                View sbview = snackbar.getView();
+                                sbview.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+                                TextView textView = sbview.findViewById(R.id.snackbar_text);
+                                textView.setTextColor(Color.WHITE);
+                                snackbar.show();
+
+                                //Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                                 mPorgress.dismiss();
 
                             }

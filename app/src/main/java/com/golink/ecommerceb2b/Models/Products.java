@@ -18,8 +18,16 @@ public class Products {
     private String price;
     @SerializedName("preview_image_path")
     private String preview_image_path;
+    @SerializedName("out_of_stock")
+    private String out_of_stock;
+    @SerializedName("offer_percentage")
+    private String offer_percentage;
+    @SerializedName("offer_price")
+    private String offer_price;
+    @SerializedName("category")
+    private String category;
 
-    public Products(String product_id, String id, String user_id, String category_id, String name, String price, String preview_image_path) {
+    public Products(String product_id, String id, String user_id, String category_id, String name, String price, String preview_image_path, String out_of_stock, String offer_percentage, String offer_price, String category) {
         this.product_id = product_id;
         this.id = id;
         this.user_id = user_id;
@@ -27,6 +35,34 @@ public class Products {
         this.name = name;
         this.price = price;
         this.preview_image_path = preview_image_path;
+        this.out_of_stock = out_of_stock;
+        this.offer_percentage = offer_percentage;
+        this.offer_price = offer_price;
+        this.category = category;
+    }
+
+    public String getOut_of_stock() {
+        return out_of_stock;
+    }
+
+    public void setOut_of_stock(String out_of_stock) {
+        this.out_of_stock = out_of_stock;
+    }
+
+    public String getOffer_percentage() {
+        return offer_percentage;
+    }
+
+    public void setOffer_percentage(String offer_percentage) {
+        this.offer_percentage = offer_percentage;
+    }
+
+    public String getOffer_price() {
+        return offer_price;
+    }
+
+    public void setOffer_price(String offer_price) {
+        this.offer_price = offer_price;
     }
 
     public String getProduct_id() {
@@ -83,5 +119,13 @@ public class Products {
 
     public void setPreview_image_path(String preview_image_path) {
         this.preview_image_path = preview_image_path;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

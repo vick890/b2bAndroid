@@ -82,7 +82,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:padding="10dp"/>
 
         <androidx.cardview.widget.CardView
@@ -91,7 +91,7 @@
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/colorWhite"
             app:cardElevation="2dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             app:cardCornerRadius="15dp"
             >
 
@@ -117,8 +117,7 @@
             android:layout_marginRight="60dp"
             app:cardBackgroundColor="@color/colorWhite"
             app:cardElevation="2dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             app:cardCornerRadius="15dp">
 
             <TextView
@@ -139,10 +138,9 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginBottom="20dp"
             app:cardBackgroundColor="@color/colorWhite"
             app:cardElevation="2dp"
             app:cardCornerRadius="20dp">
@@ -165,7 +163,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp">
 
         </androidx.recyclerview.widget.RecyclerView>

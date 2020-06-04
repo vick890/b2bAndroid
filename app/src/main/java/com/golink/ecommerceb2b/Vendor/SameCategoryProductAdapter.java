@@ -48,11 +48,58 @@ public class SameCategoryProductAdapter extends RecyclerView.Adapter<SameCategor
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, int position) {
+        holder.setIsRecyclable(false);
         final Products homeItems = homeItemsList.get(position);
 
+        /*if (homeItems.getCategory().equals(id)){
+            holder.prodName.setText(homeItems.getName());
+            holder.prodPrice.setText("₹ " + homeItems.getPrice());
+            holder.offerPrice.setText("₹ " + homeItems.getOffer_price());
+            holder.offerPercentage.setText(homeItems.getOffer_percentage()+"% OFF");
+            if (homeItems.getOut_of_stock().equals("1")){
+                holder.outOfStock.setText("OUT OF STOCK");
+            }
+            else {
+                holder.outOfStock.setVisibility(View.INVISIBLE);
+            }
+
+            Picasso.get().load(Constants.IMAGE_URL + homeItems.getPreview_image_path())
+                    .centerInside().fit()
+                    .networkPolicy(NetworkPolicy.OFFLINE).into(holder.prodImage, new Callback() {
+                @Override
+                public void onSuccess() {
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                    Picasso.get().load(Constants.IMAGE_URL + homeItems.getPreview_image_path()).centerInside()
+                            .fit().into(holder.prodImage);
+                }
+
+            });
+        }else {
+            holder.linLay.setVisibility(View.GONE);
+        }*/
             if (homeItems.getProduct_id().equals(id)){
+                holder.linLay.setVisibility(View.GONE);
+            }
+            else{
                 holder.prodName.setText(homeItems.getName());
                 holder.prodPrice.setText("₹ " + homeItems.getPrice());
+                holder.offerPrice.setText("₹ " + homeItems.getOffer_price());
+                holder.offerPercentage.setText(homeItems.getOffer_percentage()+"% OFF");
+                if (homeItems.getOut_of_stock() != null && !homeItems.getOut_of_stock().equals("")){
+                    if (homeItems.getOut_of_stock().equals("1")){
+                        holder.outOfStock.setText("OUT OF STOCK");
+                    }
+                    else {
+                        holder.outOfStock.setVisibility(View.INVISIBLE);
+                    }
+                }
+                else {
+                    holder.outOfStock.setVisibility(View.INVISIBLE);
+                }
 
                 Picasso.get().load(Constants.IMAGE_URL + homeItems.getPreview_image_path())
                         .centerInside().fit()
@@ -69,9 +116,6 @@ public class SameCategoryProductAdapter extends RecyclerView.Adapter<SameCategor
                     }
 
                 });
-            }
-            else{
-                holder.linLay.setVisibility(View.GONE);
             }
 
 
@@ -108,7 +152,7 @@ public class SameCategoryProductAdapter extends RecyclerView.Adapter<SameCategor
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         private TextView prodName;
-        private TextView prodPrice;
+        private TextView prodPrice,offerPrice,offerPercentage,outOfStock;
         private CardView linLay;
         private ImageView prodImage;
 
@@ -116,12 +160,25 @@ public class SameCategoryProductAdapter extends RecyclerView.Adapter<SameCategor
             super(itemView);
 
             prodName = itemView.findViewById(R.id.prodName);
+            offerPrice = itemView.findViewById(R.id.offerPrice);
+            offerPercentage = itemView.findViewById(R.id.offerPercentage);
+            outOfStock = itemView.findViewById(R.id.outOfStock);
             linLay = itemView.findViewById(R.id.linLay);
             prodImage = itemView.findViewById(R.id.prodImage);
             prodPrice = itemView.findViewById(R.id.prodPrice);
 
 
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 }
 
