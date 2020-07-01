@@ -1,6 +1,7 @@
 package com.golink.ecommerceb2b.Vendor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -78,22 +80,19 @@ public class StackAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
 
+                Intent intent = new Intent(context,ImagesActivity.class);
+                intent.putStringArrayListExtra("images", (ArrayList<String>) feedItemsListUniversal);
+                context.startActivity(intent);
+
 //                Intent intent = new Intent(context, CoverImages.class);
 //                intent.putExtra("feedkey", feedkey);
 //                context.startActivity(intent);
 
             }
         });
-
-
-
-
         container.addView(view);
         return view;
-
-
     }
-
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {

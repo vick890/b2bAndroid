@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -79,25 +80,20 @@ public class SingleProduct extends Fragment {
     private List<ProductItems> productItemsList = new ArrayList<>();
     private ProductAdapter productAdapter;
     private SameCategoryProductAdapter adapter;
-
     private ViewPager viewPager;
-
     StackAdapter mainAdapter;
     List<String> feedItemsListUniversal = new ArrayList<>();
-
     private ProgressDialog mPorgress;
     private EditText numPick;
     private Button logAdd;
     private Button logAdd2;
     private boolean check = false;
-
     private String checkColor;
-
     String userid,category_id,product_id;
     private RecyclerView passbookView;
     private ProgressBar progressBar;
     private ProgressDialog progressDialog;
-
+    final ArrayList<Bitmap> bitmaps = new ArrayList<>();
 
     @Nullable
     @Override
@@ -106,8 +102,6 @@ public class SingleProduct extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null)
             actionBar.setTitle("");
-
-
         Bundle b = this.getArguments();
 
         if(b!=null){
@@ -648,10 +642,8 @@ public class SingleProduct extends Fragment {
         logButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mPorgress.setMessage("Adding...");
                 mPorgress.show();
-
 
                 final String val = String.valueOf(numberPicker.getValue());
                 final String num = numPick.getText().toString();
@@ -660,15 +652,12 @@ public class SingleProduct extends Fragment {
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_CART, new Response.Listener<String>() {
                     @Override
                     public void onResponse(final String response) {
-
                         try {
                             final JSONObject jsonObject = new JSONObject(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1));
-
                             boolean error = jsonObject.getBoolean("error");
 
                             if(!error){
                                 mPorgress.dismiss();
-
                                 //String message = jsonObject.getString("message");
                                 Toast.makeText(getActivity(), "Product added to cart successfully!", Toast.LENGTH_LONG).show();
 

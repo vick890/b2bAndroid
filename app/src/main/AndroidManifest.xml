@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Registration.TermsConditions"></activity>
+        <activity android:name=".Vendor.ImagesActivity"></activity>
+        <activity android:name=".Registration.TermsConditions" />
         <activity android:name=".Chat.AllVendors" />
         <activity android:name=".MyOrders.OrderPage" />
         <activity android:name=".Cart.CartPage" />
